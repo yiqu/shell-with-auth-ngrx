@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "kq-1-1a499"
+  },
+  "targets": {
+    "kq-1-1a499": {
+      "hosting": {
+        "production-target": [
+          "kq-1-1a499"
+        ]
+      }
+    }
   }
 }
