@@ -31,10 +31,10 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.dataSource = new MatTableDataSource(this.transformMilestoneData(this.tableData));
+    this.dataSource = new MatTableDataSource(this.transformData(this.tableData));
   }
 
-  transformMilestoneData(data: any[]) {
+  transformData(data: any[]) {
     let res: ITableColumn[] = [];
     data.forEach((d: any) => {
       let rowData = new TableColumn("Kevin", "Me");
