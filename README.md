@@ -1,4 +1,6 @@
 # shell-with-auth-ngrx
+[![Build Status](https://travis-ci.com/yiqu/shell-with-auth-ngrx.svg?branch=master)](https://travis-ci.com/yiqu/shell-with-auth-ngrx)
+
 This is a shell application that uses Firebase Fire Store as the database, and NgRx as the state manager.
 
 # Using this shell
