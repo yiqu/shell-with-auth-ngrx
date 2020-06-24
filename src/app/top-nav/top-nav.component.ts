@@ -5,9 +5,9 @@ import { takeUntil, take } from 'rxjs/operators';
 import { headShakeAnimation, rotateAnimation, tadaAnimation } from 'angular-animations';
 import { MenuItem } from '../shared/models/nav-item.model';
 import { AuthService } from '../services/auth.service';
-import { AppState } from '../shared/redux-stores/global-store/app.reducer';
+import { AppState } from '../redux-stores/global-store/app.reducer';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../shared/redux-stores/auth/auth.models';
+import { AuthState } from '../redux-stores/auth/auth.models';
 import { VerifiedUser } from '../shared/models/user.model';
 import * as utils from '../shared/utils/general.utils';
 import { CapitalizeFirstLetterPipe } from '../shared/pipes/letters.pipe';
@@ -24,7 +24,7 @@ import { CapitalizeFirstLetterPipe } from '../shared/pipes/letters.pipe';
 })
 export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  headerTitle: string = "Milestones";
+  headerTitle: string = "PLACEHOLDER";
   compDest$: Subject<any> = new Subject<any>();
   logoShakeState: boolean = false;
   leftNavMenuState: boolean = false;

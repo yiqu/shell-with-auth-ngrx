@@ -24,14 +24,9 @@ export class SideNavComponent implements OnInit, OnDestroy {
 
   createAllOptions() {
     this.headerList.push(
-      new NavHeaderList(new NavHeader("Self"), [
-        new NavHeaderLink("My Progress", "assessment", ["/", "personal"]),
-      ]),
-      new NavHeaderList(new NavHeader("Data"), [
-        new NavHeaderLink("Configurations", "assignment", ["/", "settings"]),
-      ]),
-      new NavHeaderList(new NavHeader("History"), [
-        new NavHeaderLink("Metrics", "trending_up", ["/", "performance", "metrics"])
+      new NavHeaderList(new NavHeader("Your Parent Header"), [
+        new NavHeaderLink("My Link", "assessment", ["/", "home"]),
+        new NavHeaderLink("Core", "assessment", ["/", "core"]),
       ]),
       new NavHeaderList(new NavHeader("Help & Settings"), [
         new NavHeaderLink("My Account", "account_circle", ["/", "my-account"]),

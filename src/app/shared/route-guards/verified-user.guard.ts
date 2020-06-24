@@ -4,9 +4,9 @@ import { CanActivate, Router, ActivatedRoute, ActivatedRouteSnapshot,
 import { Observable, combineLatest, Subject, of, from } from 'rxjs';
 import { map, take, tap, skip } from 'rxjs/operators';
 import { VerifiedUser } from '../models/user.model';
-import { AppState } from '../redux-stores/global-store/app.reducer';
+import { AppState } from '../../redux-stores/global-store/app.reducer';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../redux-stores/auth/auth.models';
+import { AuthState } from '../../redux-stores/auth/auth.models';
 
 @Injectable({
   providedIn: 'root'

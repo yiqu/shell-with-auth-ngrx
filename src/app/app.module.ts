@@ -16,10 +16,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoadingModule } from './shared/loading/loading.module';
 import { CustomComponentsModule } from './shared/custom/custom-bundle.module';
+import { SideNavModule } from './side-nav/side-nav.module';
+import { TopNavModule } from './top-nav/top-nav.module';
+import { appReducers } from './redux-stores/global-store/app.reducer';
+import { appEffects } from './redux-stores/global-store/app.effects';
+import { NotFoundComponentModule } from './404/404.module';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent
   ],
 
   imports: [
@@ -52,7 +59,10 @@ import { CustomComponentsModule } from './shared/custom/custom-bundle.module';
         warning: 'toast-warning'
       }
     }),
+    NotFoundComponentModule,
     LoadingModule,
+    SideNavModule,
+    TopNavModule,
     CustomComponentsModule,
     AppRoutingModule
   ],
