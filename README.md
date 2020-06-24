@@ -3,6 +3,10 @@
 
 This is a shell application that uses Firebase Fire Store as the database, and NgRx as the state manager.
 
+Latest: [Here](https://yiqu.github.io/shell-with-auth-ngrx)
+
+Stable: [Firebase Hosted](https://kq-1-1a499.web.app/)
+
 ## Using this shell
 
 ### Link up your Firebase backend
