@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../redux-stores/global-store/app.reducer';
 import { takeUntil } from 'rxjs/operators';
 import { AuthState } from '../../redux-stores/auth/auth.models';
+import { IsMobileService } from 'src/app/services/is-mobile.service';
 
 @Component({
   selector: 'app-account-view',
@@ -17,8 +18,9 @@ export class AccountViewComponent implements OnInit, OnDestroy {
   defaultAvartarImgSrc: string = "assets/banner/placeholder-logo.png";
   compDest$: Subject<any> = new Subject<any>();
   user: VerifiedUser;
+  authLoading: boolean;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, public ims: IsMobileService) {
 
   }
 
@@ -28,6 +30,7 @@ export class AccountViewComponent implements OnInit, OnDestroy {
     )
     .subscribe(
       (state: AuthState) => {
+        this.authLoading = state.loading;
         this.user = state.verifiedUser;
       }
     )

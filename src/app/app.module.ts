@@ -22,11 +22,13 @@ import { appReducers } from './redux-stores/global-store/app.reducer';
 import { appEffects } from './redux-stores/global-store/app.effects';
 import { NotFoundComponentModule } from './404/404.module';
 import { HomeComponent } from './home/home.component';
+import { DeleteMeComponent } from './home/delete-me.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    DeleteMeComponent
   ],
 
   imports: [

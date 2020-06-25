@@ -4,14 +4,15 @@ import { NoVerifiedUserGuard } from './shared/route-guards/no-user.guard';
 import { NotFoundComponent } from './404/404.component';
 import { NetworkAwarePreloadStrategy } from './shared/preload-strategies/preload-network';
 import { HomeComponent } from './home/home.component';
+import { DeleteMeComponent } from './home/delete-me.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
   { path: "home", component: HomeComponent,
     children:
       [
-        { path: "", redirectTo: 'home-sub', pathMatch: 'full' },
-        { path: "home-sub", component: HomeComponent },
+        { path: "", redirectTo: 'public', pathMatch: 'full' },
+        { path: "public", component: DeleteMeComponent },
       ]
   },
   { path: 'core',

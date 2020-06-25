@@ -57,7 +57,7 @@ export class AuthEffects {
       switchMap(() => {
         return firebase.auth().signOut()
         .then(() => {
-          return fromAuthActions.authLogoutSuccess({redirect: true});
+          return fromAuthActions.authLogoutSuccess({redirect: true, showAlert: true});
         });
       }));
   });
@@ -117,7 +117,9 @@ export class AuthEffects {
         if (redirect) {
           urlSegs.push("/", "auth");
         }
-        this.ts.getSuccess("You are logged out.");
+        if (options.showAlert) {
+          this.ts.getSuccess("You are logged out.");
+        }
         return [
           fromRouterActions.redirectWithUrl({url: urlSegs}),
           fromLsActions.clearVerifiedUserAction()
@@ -134,7 +136,9 @@ export class AuthEffects {
           urlToRedirect = [];
           urlToRedirect.push("/");
         }
-        this.ts.getSuccess("You are logged in.");
+        if (opts.showAlert) {
+          this.ts.getSuccess("You are logged in.", 4000, true);
+        }
         return [
           fromRouterActions.redirectWithUrl({url: urlToRedirect}),
           fromLsActions.saveVerifiedUserAction({user: opts.verifiedUser})
@@ -151,7 +155,8 @@ export class AuthEffects {
       ofType(fromAuthActions.authAutoLogin),
       map((opts) => {
         this.ts.getSuccess("Auto logging in...");
-        return fromAuthActions.authLoginSuccess({verifiedUser: opts.user});
+        const prop = new LoginSuccessActionProp(opts.user, false, false);
+        return fromAuthActions.authLoginSuccess(prop);
       })
     );
   });

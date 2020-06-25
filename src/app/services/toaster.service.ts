@@ -10,21 +10,19 @@ export class ToasterService {
 
   }
 
-  getSuccess(msg: string, duration?: number) {
-    this.ts.success(msg, "Success!");
+  getSuccess(msg: string, duration?: number, clearOthers?: boolean) {
+    if (clearOthers) {
+      this.clearAll();
+    }
+    this.ts.success(msg, "Success");
   }
 
   getError(msg: string) {
-    this.ts.error(msg, "Error occured!");
+    this.ts.error(msg, "Error occured");
   }
 
   getInfo(msg: string) {
-    this.ts.info(msg, "Info.");
-  }
-
-  getSuccessAndClear(msg: string, duration?: number) {
-    this.clearAll();
-    this.ts.success(msg, "Success!");
+    this.ts.info(msg, "Info");
   }
 
   clearAll() {

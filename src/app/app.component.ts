@@ -27,18 +27,10 @@ export class AppComponent implements OnInit, OnDestroy {
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
-    public store: Store<AppState>, private ims: IsMobileService) {
-    // injecting AngularFire will auto initializeApp
 
-    //firebase.initializeApp(environment.firebaseConfig);
-    /**
-     * Detect if deive is mobile size, then re-run detection change
-     */
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
-    this.ims.mediaQList = this.mobileQuery;
+  constructor(public changeDetectorRef: ChangeDetectorRef, public media: MediaMatcher,
+    public store: Store<AppState>, private ims: IsMobileService) {
+      this.setMobileDetection();
   }
 
   ngOnInit() {
@@ -46,6 +38,24 @@ export class AppComponent implements OnInit, OnDestroy {
     if (u) {
       this.store.dispatch(AuthActions.authAutoLogin({user: u}))
     }
+  }
+
+  /**
+   * Initialize Firebase.
+   * NOTE: Injecting AngularFire will auto initializeApp
+   */
+  initFirebase() {
+    firebase.initializeApp(environment.firebaseConfig);
+  }
+
+  /**
+   * Detect if deive is mobile size, then re-run detection change
+   */
+  setMobileDetection() {
+    this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => this.changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+    this.ims.mediaQList = this.mobileQuery;
   }
 
   onTopNavMenuClick() {

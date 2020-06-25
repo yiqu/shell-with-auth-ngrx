@@ -1,61 +1,47 @@
-<div class="row mt-3 mb-3">
+<div class="row mt-3 mb-5">
   <div class="col-sm-6 offset-md-3">
-    <div class="order-label comf center-align" id="">
+    <div class="center-align">
       Account Overview
     </div>
   </div>
 </div>
 
-<div class="row mb-3" *ngIf="user; else noUser">
-  <div class="col-sm-12 roboto">
-    <mat-card class="profile-card">
-      <mat-card-header>
-        <img mat-card-avatar [src]="user.photoURL ? user.photoURL : defaultAvartarImgSrc">
-        <mat-card-title>{{user.displayName ? user.displayName : 'No Display Name Entered'}}</mat-card-title>
-        <mat-card-subtitle>
-          Last logged in: {{user.lastLoginAt | dateDisplay:'FULLANDFROMNOW'}}
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <form>
-          <div class="form-row">
-            <div class="form-group col-sm-4">
-              <label>Email</label>
-              <input type="email" class="form-control" placeholder="Email"
-                [value]="user.email" readonly>
-            </div>
-            <div class="form-group col-sm-4">
-              <label >Display name</label>
-              <input type="text" class="form-control" [value]="user.displayName" readonly>
-            </div>
-            <div class="form-group col-sm-4">
-              <label >Phone number</label>
-              <input type="text" class="form-control" [value]="user.phoneNumber" readonly>
-            </div>
-          </div>
-          <div class="form-group">
-            <label >Photo URL</label>
-            <input type="text" class="form-control" [value]="user.photoURL" readonly>
-          </div>
-          <div class="form-group">
-            <label >Access Token</label>
-            <input type="text" class="form-control"
-              [value]="user.stsTokenManager.accessToken" readonly>
-          </div>
-          <div class="form-group">
-            <label >Token Expire Time</label>
-            <input type="text" class="form-control"
-              [value]="user.stsTokenManager.expirationTime | dateDisplay:'FULLANDFROMNOW'" readonly>
-          </div>
-        </form>
-      </mat-card-content>
-    </mat-card>
+<div class="row" *ngIf="!authLoading; else loading">
+  <div class="col-sm-12 col-md-6 profile-pic" [class.is-mobile]="this.ims.mediaQList.matches">
+    <div class="profile-img-parent">
+      <img class="img-h-100"
+        [src]="user.photoURL ? user.photoURL : defaultAvartarImgSrc">
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <div class="row mb-3">
+      <div class="col-sm-12">
+        <div class="vlabel">Display name:</div>
+        <div>
+          {{user.displayName ? user.displayName : 'Not entered'}}
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-12">
+        <div class="vlabel">Email:</div>
+        <div>
+          {{user.email}}
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-12">
+        <div class="vlabel">Last login:</div>
+        <div>
+          {{user.lastLoginAt | dateDisplay:'FULLANDFROMNOW'}}
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<ng-template #noUser>
-  <div class="center-align">
-    Loading your profile...
-    <app-loading-spinner [diameter]="30"></app-loading-spinner>
-  </div>
+
+<ng-template #loading>
+  <app-shared-loading></app-shared-loading>
 </ng-template>

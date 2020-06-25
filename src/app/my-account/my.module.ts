@@ -8,6 +8,8 @@ import { AccountViewComponent } from './view/view.component';
 import { AccountEditComponent } from './edit/edit.component';
 import { PipeBundleModule } from '../shared/pipes/pipe-bundle.module';
 import { LoadingSpinnerModule } from '../shared/spinner/loading.module';
+import { CustomComponentsModule } from '../shared/custom/custom-bundle.module';
+import { LoadingModule } from '../shared/loading/loading.module';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { LoadingSpinnerModule } from '../shared/spinner/loading.module';
     MaterialModuleBundle,
     PipeBundleModule,
     LoadingSpinnerModule,
-    AccountRoutingModule
+    CustomComponentsModule,
+    LoadingModule,
+    AccountRoutingModule,
   ],
   exports: [
 

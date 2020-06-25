@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../redux-stores/global-store/app.reducer';
 import * as AuthActions from '../redux-stores/auth/auth.actions';
-import { UserRegistrationFromEmailActionProp } from '../redux-stores/auth/auth.models';
+import { UserRegistrationFromEmailActionProp, LoginSuccessActionProp } from '../redux-stores/auth/auth.models';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class AuthService {
 
   constructor(private afs: AngularFirestore, public store: Store<AppState>) {
     // this determines if firebase auth has emitted the first result,
-    // if it has not, don't redirect, or resume redirect operations
+    // if it has not, don't redirect to /, or resume redirect operations
     let firstAuthUserFetchCallCompleted: boolean = false;
 
     firebase.auth().onAuthStateChanged(
@@ -26,7 +26,7 @@ export class AuthService {
         console.log("Firebase State AUTH:", user ? user.toJSON():user);
         if (user) {
           const u = (<VerifiedUser>user.toJSON());
-          this.setVerifiedUser(u, firstAuthUserFetchCallCompleted);
+          this.setVerifiedUser(u, firstAuthUserFetchCallCompleted, true);
           firstAuthUserFetchCallCompleted = true;
         } else {
           this.unsetVerifiedUser();
@@ -63,8 +63,9 @@ export class AuthService {
     this.store.dispatch(AuthActions.authThrowErrorMessageByUser({errorMsg: msg}));
   }
 
-  setVerifiedUser(u: VerifiedUser, redirect: boolean) {
-    this.store.dispatch(AuthActions.authLoginSuccess({verifiedUser: u, redirect: redirect}));
+  setVerifiedUser(u: VerifiedUser, redirect: boolean, showAlert?: boolean) {
+    const prop = new LoginSuccessActionProp(u, redirect, showAlert);
+    this.store.dispatch(AuthActions.authLoginSuccess(prop));
   }
 
   unsetVerifiedUser() {
