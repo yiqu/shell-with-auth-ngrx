@@ -4,7 +4,7 @@ import 'firebase/auth';
 import 'firebase/database';
 import { AngularFirestore, AngularFirestoreDocument,
   AngularFirestoreCollection } from '@angular/fire/firestore';
-import { VerifiedUser, AuthInfoFromUser } from '../shared/models/user.model';
+import { VerifiedUser, AuthInfoFromUser, AuthEmailCredential } from '../shared/models/user.model';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../redux-stores/global-store/app.reducer';
@@ -69,6 +69,10 @@ export class AuthService {
 
   unsetVerifiedUser() {
     this.store.dispatch(AuthActions.authLogoutSuccess({redirect: false}));
+  }
+
+  resetPasswordByEmail(cred: AuthEmailCredential) {
+    this.store.dispatch(AuthActions.authResetPasswordStart(cred));
   }
 
 }

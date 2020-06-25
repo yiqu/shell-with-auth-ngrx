@@ -4,7 +4,7 @@
 import { FirebasePromiseError } from '../models/firebase.model';
 
 
-export function getFirebaseErrorMsg(err: any): string {
+export function getFirebaseErrorMsg(err: FirebasePromiseError): string {
   if (err) {
     return decodeFireBaseErr(err);
   }

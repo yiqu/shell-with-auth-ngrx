@@ -13,6 +13,7 @@ import * as fromAuthActions from './auth.actions';
 import * as fromRouterActions from '../router-related/router-related.actions';
 import * as fromLsActions from '../local-storage/local-storage.actions';
 import { ToasterService } from '../../services/toaster.service';
+import { FirebasePromiseError } from '../../shared/models/firebase.model';
 
 @Injectable()
 export class AuthEffects {
@@ -154,5 +155,31 @@ export class AuthEffects {
       })
     );
   });
+
+  resetPasswordByEmail$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromAuthActions.authResetPasswordStart),
+      switchMap((data) => {
+        const emailAddress: string = data.email;
+        return firebase.auth().sendPasswordResetEmail(emailAddress).then(
+          (res) => {
+            return fromAuthActions.authResetPasswordSuccess({email: emailAddress});
+          },
+          (rej: FirebasePromiseError) => {
+            return fromAuthActions.authResetPasswordFail({errorMsg: AuthUtils.getFirebaseErrorMsg(rej)})
+          }
+        )
+      })
+    );
+  });
+
+  resetPasswordByEmailSent$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fromAuthActions.authResetPasswordSuccess),
+      tap((data) => {
+        this.ts.getSuccess("A email with password reset instructions has been sent to " + data.email);
+      })
+    )
+  }, {dispatch: false});
 
 }

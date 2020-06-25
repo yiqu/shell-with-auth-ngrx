@@ -8,6 +8,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthSignupComponent } from './signup/signup.component';
 import { AuthSigninComponent } from './signin/signin.component';
 import { LoadingSpinnerModule } from '../shared/spinner/loading.module';
+import { AuthResetComponent } from './reset/reset.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { LoadingSpinnerModule } from '../shared/spinner/loading.module';
   declarations: [
     AuthComponent,
     AuthSigninComponent,
-    AuthSignupComponent
+    AuthSignupComponent,
+    AuthResetComponent
   ],
 
   providers: [

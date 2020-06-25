@@ -56,3 +56,8 @@ export class ProviderData {
 
   }
 }
+
+export class AuthEmailCredential {
+  constructor(public email: string) {
+  }
+}

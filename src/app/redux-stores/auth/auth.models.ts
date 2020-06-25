@@ -6,6 +6,7 @@ export interface AuthState {
   loading: boolean;
   error: boolean;
   errorMsg: string;
+  resetEmail: string;
 }
 
 export class LoginStartActionProp {
@@ -34,8 +35,13 @@ export class AuthVerifiedUserProp {
   }
 }
 
-
 export class LogoutIfRedirectActionProp {
   constructor(public redirect: boolean) {
+  }
+}
+
+export class UserCredentialResetActionProp {
+  constructor(public email: string) {
+
   }
 }

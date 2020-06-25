@@ -22,7 +22,7 @@ import { AuthState } from '../../redux-stores/auth/auth.models';
 })
 export class AuthSignupComponent implements OnInit, OnDestroy {
 
-  accountType: string = "PLACEHOLDER";
+  accountType: string = environment.entityName;
   matcher: ErrorStateMatcher = new em.AfterActionsErrorStateMatcher();
   signInTitle: string = "Create your PLACEHOLDER Account.";
   avartarImgSrc: string = "assets/banner/placeholder-logo.png";

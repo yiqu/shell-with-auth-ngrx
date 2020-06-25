@@ -4,6 +4,7 @@ import { AuthComponent } from './auth.component';
 import { AuthSigninComponent } from './signin/signin.component';
 import { AuthSignupComponent } from './signup/signup.component';
 import { AuthUserAlreadyLoggedInGuard } from '../shared/route-guards/verified-user.guard';
+import { AuthResetComponent } from './reset/reset.component';
 
 const routes: Routes = [
   { path: '', component: AuthComponent, canActivate: [AuthUserAlreadyLoggedInGuard],
@@ -11,6 +12,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'signin', pathMatch: 'full' },
       { path: 'signin', component: AuthSigninComponent },
       { path: 'signup', component: AuthSignupComponent },
+      { path: 'reset', component: AuthResetComponent },
   ]}
 ]
 

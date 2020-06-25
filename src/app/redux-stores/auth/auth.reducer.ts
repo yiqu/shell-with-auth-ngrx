@@ -9,7 +9,8 @@ const inititalState: AuthState = {
   verifiedUser: null,
   loading: false,
   error: false,
-  errorMsg: null
+  errorMsg: null,
+  resetEmail: null
 }
 
 export const authReducer = createReducer(
@@ -154,6 +155,35 @@ export const authReducer = createReducer(
     return {
       ...state,
       verifiedUser: user
+    }
+  }),
+
+  on(AuthActions.authResetPasswordStart, (state, {email}) => {
+    return {
+      ...state,
+      resetEmail: email,
+      loading: true,
+      verifiedUser: null,
+      error: false,
+      errorMsg: null
+    }
+  }),
+
+  on(AuthActions.authResetPasswordFail, (state, {errorMsg}) => {
+    return {
+      ...state,
+      loading: false,
+      error: true,
+      errorMsg: errorMsg
+    }
+  }),
+
+  on(AuthActions.authResetPasswordSuccess, (state, {email}) => {
+    return {
+      ...state,
+      loading: false,
+      error: false,
+      errorMsg: null,
     }
   }),
 

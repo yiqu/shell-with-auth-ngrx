@@ -96,6 +96,10 @@ export class AuthSigninComponent implements OnInit, OnDestroy {
     }
   }
 
+  onForgotPassword() {
+    this.router.navigate(['/', 'auth', 'reset']);
+  }
+
   ngOnDestroy() {
     this.compDest$.next();
     this.compDest$.complete();

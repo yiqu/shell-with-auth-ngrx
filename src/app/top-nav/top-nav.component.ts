@@ -11,6 +11,7 @@ import { AuthState } from '../redux-stores/auth/auth.models';
 import { VerifiedUser } from '../shared/models/user.model';
 import * as utils from '../shared/utils/general.utils';
 import { CapitalizeFirstLetterPipe } from '../shared/pipes/letters.pipe';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-top-nav',
@@ -24,7 +25,7 @@ import { CapitalizeFirstLetterPipe } from '../shared/pipes/letters.pipe';
 })
 export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  headerTitle: string = "PLACEHOLDER";
+  headerTitle: string = environment.entityName;
   compDest$: Subject<any> = new Subject<any>();
   logoShakeState: boolean = false;
   leftNavMenuState: boolean = false;

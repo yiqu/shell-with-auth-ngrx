@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { Action } from '@ngrx/store';
 import { AuthInfoFromUser, VerifiedUser } from '../../shared/models/user.model';
 import { LoginSuccessActionProp, LoginFailureActionProp, LoginStartActionProp,
-  UserRegistrationFromEmailActionProp, AuthVerifiedUserProp, LogoutIfRedirectActionProp}
+  UserRegistrationFromEmailActionProp, AuthVerifiedUserProp, LogoutIfRedirectActionProp, UserCredentialResetActionProp}
 from './auth.models';
 
 const LOGIN_START: string = "[Auth/Login] Auth Login Start";
@@ -20,6 +20,9 @@ const NEW_USER_REGISTRATION_ADD_TO_DB_FAILURE: string = "[Auth/Register] Auth Ne
 const USER_ACTION_CLEAR_ERRORS: string = "[Auth/User] User Action Clear Errors";
 const USER_ACTION_THROW_ERROR: string = "[Auth/User] User Action Throw Error";
 const AUTO_LOGIN: string = "[Auth/Auto] Auto Log In";
+const RESET_PASSWORD_START: string = "[Auth/Reset] Reset Password Start";
+const RESET_PASSWORD_SUCCESS: string = "[Auth/Reset] Reset Password Success";
+const RESET_PASSWORD_ERROR: string = "[Auth/Reset] Reset Password Failure";
 
 export const authLoginStart = createAction(
   LOGIN_START,
@@ -88,4 +91,19 @@ export const authThrowErrorMessageByUser = createAction(
 export const authAutoLogin = createAction(
   AUTO_LOGIN,
   props<AuthVerifiedUserProp>()
+)
+
+export const authResetPasswordStart = createAction(
+  RESET_PASSWORD_START,
+  props<UserCredentialResetActionProp>()
+)
+
+export const authResetPasswordFail = createAction(
+  RESET_PASSWORD_ERROR,
+  props<LoginFailureActionProp>()
+)
+
+export const authResetPasswordSuccess = createAction(
+  RESET_PASSWORD_SUCCESS,
+  props<UserCredentialResetActionProp>()
 )

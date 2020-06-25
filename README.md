@@ -85,7 +85,21 @@ service cloud.firestore {
 
 This will only allow user read/write their own documents after signing in.
 
-## Host your app on Firebase
+
+### Firebase Auth Across Tabs Behavior
+
+Expected behavior across browser tabs
+
+The following expected behavior will apply when different persistence types are used in different tabs. The requirement is that at any point, there should never be multiple types of saved states at the same time (eg. auth state saved in session and local types of storage):
+
+* Users can sign in using session or none persistence with different users on multiple tabs. Each tab cannot see the state of the other tab.
+
+* Any attempt to sign in using local persistence will be detected and synchronized on all tabs. If the user was previously signed in on a specific tab using session or none persistence, that state will be cleared.
+
+* If the user was previously signed in using local persistence with multiple tabs opened and then switches to none or session persistence in one tab, the state of that tab will be modified with the user persisted in session or none and on all other tabs, the user will be signed out.
+
+
+### Host your app on Firebase
 
 ```
 firebase login

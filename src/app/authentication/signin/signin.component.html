@@ -14,18 +14,19 @@
             <img [src]="avartarImgSrc" class="img-h-100 border-circ" alt="avartar">
           </div>
 
-          <div>
-            <mat-form-field appearance="outline" class="mb-3 full-w">
-              <mat-label>Email</mat-label>
-              <input matInput placeholder="Email" [formControlName]="'id'" (keyup.enter)="onSignInClick()">
-              <mat-icon matSuffix>email</mat-icon>
-              <mat-hint>Email associated with your account.</mat-hint>
-              <mat-error>Invalid email format.</mat-error>
-            </mat-form-field>
+          <mat-form-field appearance="outline" class="mb-1 full-w">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" [formControlName]="'id'" (keyup.enter)="onSignInClick()">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-hint>Email associated with your account.</mat-hint>
+            <mat-error>Invalid email format.</mat-error>
+          </mat-form-field>
+
+          <div class="f-right mb-1">
+            <button mat-button class="forgot-btn" (click)="onForgotPassword()">Forgot password?</button>
           </div>
 
-
-          <mat-form-field appearance="outline" class="full-w">
+          <mat-form-field appearance="outline" class="mb-1 full-w">
             <mat-label>Password</mat-label>
             <input matInput placeholder="Password" type="password" [formControlName]="'password'"
               (keyup.enter)="onSignInClick()">
