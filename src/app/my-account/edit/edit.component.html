@@ -11,44 +11,67 @@
     <mat-card class="profile-card">
       <mat-card-header>
         <img mat-card-avatar [src]="user.photoURL ? user.photoURL : defaultAvartarImgSrc">
-        <mat-card-title>{{user.displayName ? user.displayName : 'No Display Name Entered'}}</mat-card-title>
+        <mat-card-title>{{user.displayName ? user.displayName : 'No Display Name Entered'}}
+          {{infoFg.pristine ? "" : "*"}}
+        </mat-card-title>
         <mat-card-subtitle>
           Last logged in: {{user.lastLoginAt | dateDisplay:'FULLANDFROMNOW'}}
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
+        <div class="">
+          <form [formGroup]="infoFg">
+            <div class="mb-3">
+              <mat-form-field class="full-w">
+                <mat-label>Display Name</mat-label>
+                <input matInput [errorStateMatcher]="matcher" placeholder="John Smith" formControlName="displayName">
+                <mat-hint>Your display name.</mat-hint>
+                <mat-error *ngIf="infoFg.get('displayName').hasError('alphanumericOnly')">
+                  Display name can only container letters or numbers.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="mb-3">
+              <mat-form-field class="full-w">
+                <mat-label>Phone Number</mat-label>
+                <span matPrefix>+1 &nbsp;</span>
+                <input matInput [errorStateMatcher]="matcher" placeholder="7031234567" formControlName="phoneNumber">
+                <mat-icon matSuffix>phone</mat-icon>
+                <mat-hint>We will never spam you.</mat-hint>
+                <mat-error *ngIf="infoFg.get('phoneNumber').hasError('numbersOnly')">
+                  Phone number can only contain numbers.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="mb-3">
+              <mat-form-field class="full-w">
+                <mat-label>Photo URL</mat-label>
+                <input matInput [errorStateMatcher]="matcher" placeholder="https://imgur.com/blah" formControlName="photoUrl">
+                <mat-hint>Your avatar photo URL</mat-hint>
+              </mat-form-field>
+            </div>
+          </form>
+        </div>
+
         <form>
           <div class="form-row">
-            <div class="form-group col-sm-4">
-              <label>Email</label>
-              <input type="email" class="form-control" placeholder="Email"
-                [value]="user.email" readonly>
+            <div class="form-group col-sm-3">
+              <label >Access Token</label>
+              <input type="text" class="form-control"
+                [value]="user.stsTokenManager.accessToken" readonly>
             </div>
-            <div class="form-group col-sm-4">
-              <label >Display name</label>
-              <input type="text" class="form-control" [value]="user.displayName" readonly>
+            <div class="form-group col-sm-9">
+              <label >Token Expire Time</label>
+              <input type="text" class="form-control"
+                [value]="user.stsTokenManager.expirationTime | dateDisplay:'FULLANDFROMNOW'" readonly>
             </div>
-            <div class="form-group col-sm-4">
-              <label >Phone number</label>
-              <input type="text" class="form-control" [value]="user.phoneNumber" readonly>
-            </div>
-          </div>
-          <div class="form-group">
-            <label >Photo URL</label>
-            <input type="text" class="form-control" [value]="user.photoURL" readonly>
-          </div>
-          <div class="form-group">
-            <label >Access Token</label>
-            <input type="text" class="form-control"
-              [value]="user.stsTokenManager.accessToken" readonly>
-          </div>
-          <div class="form-group">
-            <label >Token Expire Time</label>
-            <input type="text" class="form-control"
-              [value]="user.stsTokenManager.expirationTime | dateDisplay:'FULLANDFROMNOW'" readonly>
           </div>
         </form>
       </mat-card-content>
+      <mat-card-actions [align]="'end'">
+        <button mat-button (click)="onReset()">Reset</button>
+        <button mat-button (click)="onSave()">Save</button>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>

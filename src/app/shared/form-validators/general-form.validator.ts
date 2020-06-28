@@ -19,13 +19,32 @@ export function customOnlyLettersValidator(control: FormControl): {[s: string]: 
   return {"lettersOnly": true};
 }
 
-export function customOnlyNumbersValidator(control: FormControl): {[s: string]: boolean} {
+export function numbersOnlyValidator(control: FormControl): {[s: string]: boolean} {
+  const nums: RegExp = /^\d+$/;
+  if (control.value && control.value.trim().match(nums)) {
+    return null;
+  }
+  return {"numbersOnly": true};
+}
+
+
+export function customOnlyNumbersAndDecimalsValidator(control: FormControl): {[s: string]: boolean} {
   //const num: RegExp = /^[0-9]+([,.][0-9]+)?$/;
   const num: RegExp = /^[0-9]+([.][0-9]+)?$/;
   // convert to string first
   const val = control.value + "";
-  if (val && val.match(num)) {
+  if (control.value && val.match(num)) {
     return null;
   }
-  return {"numbersOnly": true};
+  return {"decimalAndNumbersOnly": true};
+}
+
+export function alphaNumericValidator(control: FormControl): {[s: string]: boolean} {
+  const alphaNumeric: RegExp = /^[a-z0-9]+$/;
+  // convert to string first
+  const val = (control.value + "").trim();
+  if (control.value && val.match(alphaNumeric)) {
+    return null;
+  }
+  return {"alphanumericOnly": true};
 }
