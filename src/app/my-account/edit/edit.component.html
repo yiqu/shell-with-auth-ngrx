@@ -10,15 +10,15 @@
   <div class="col-sm-12 roboto">
     <mat-card class="profile-card">
       <mat-card-header>
-        <img mat-card-avatar [src]="user.photoURL ? user.photoURL : defaultAvartarImgSrc">
+        <img mat-card-avatar [src]="user.photoUrl ? user.photoUrl : defaultAvartarImgSrc">
         <mat-card-title>{{user.displayName ? user.displayName : 'No Display Name Entered'}}
           {{infoFg.pristine ? "" : "*"}}
         </mat-card-title>
         <mat-card-subtitle>
-          Last logged in: {{user.lastLoginAt | dateDisplay:'FULLANDFROMNOW'}}
+          <!-- Last logged in: {{user.lastLoginAt | dateDisplay:'FULLANDFROMNOW'}} -->
         </mat-card-subtitle>
       </mat-card-header>
-      <mat-card-content>
+      <mat-card-content class="mt-3">
         <div class="">
           <form [formGroup]="infoFg">
             <div class="mb-3">
@@ -31,7 +31,7 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
               <mat-form-field class="full-w">
                 <mat-label>Phone Number</mat-label>
                 <span matPrefix>+1 &nbsp;</span>
@@ -42,7 +42,7 @@
                   Phone number can only contain numbers.
                 </mat-error>
               </mat-form-field>
-            </div>
+            </div> -->
             <div class="mb-3">
               <mat-form-field class="full-w">
                 <mat-label>Photo URL</mat-label>
@@ -53,7 +53,7 @@
           </form>
         </div>
 
-        <form>
+        <!-- <form>
           <div class="form-row">
             <div class="form-group col-sm-3">
               <label >Access Token</label>
@@ -66,8 +66,11 @@
                 [value]="user.stsTokenManager.expirationTime | dateDisplay:'FULLANDFROMNOW'" readonly>
             </div>
           </div>
-        </form>
+        </form> -->
       </mat-card-content>
+      <div *ngIf="formError" class="alert alert-danger" role="alert">
+        Please fix your inputs before saving.
+      </div>
       <mat-card-actions [align]="'end'">
         <button mat-button (click)="onReset()">Reset</button>
         <button mat-button (click)="onSave()">Save</button>

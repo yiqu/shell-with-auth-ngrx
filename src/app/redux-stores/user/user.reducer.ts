@@ -41,4 +41,29 @@ export const userInfoReducer = createReducer(
       error: true
     }
   }),
+  on(userActions.getUserProfileStart, (state) => {
+    return {
+      ...state,
+      loading: true,
+      errMsg: null,
+      error: false
+    }
+  }),
+  on(userActions.getUserProfileSuccess, (state, {fireProfile}) => {
+    return {
+      ...state,
+      userInfo: fireProfile,
+      loading: false,
+      errMsg: null,
+      error: false
+    }
+  }),
+  on(userActions.getUserProfileFailure, (state, {errorMsg}) => {
+    return {
+      ...state,
+      loading: false,
+      errMsg: errorMsg,
+      error: true
+    }
+  }),
 )
