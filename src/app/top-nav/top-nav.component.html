@@ -15,9 +15,10 @@
   </div>
 
   <div class="d-flex section-parent f-right">
-    <button mat-icon-button [disabled]="loading"
-      [matMenuTriggerFor]="menu" color="primary">
-      <mat-icon>{{userMenuIcon}}</mat-icon>
+    <button mat-button [disabled]="loading" [matMenuTriggerFor]="menu" class="user-dropdown">
+      <div class="profile-img-parent">
+        <img [src]="avartarImgSrc" class="img-h-100 round-corners" alt="avartar">
+      </div>
     </button>
 
     <mat-menu #menu="matMenu">

@@ -87,6 +87,10 @@ h2 {
   flex: 1 1 auto;
 }
 
+.round-corners {
+  border-radius: 50%;
+}
+
 .center-loading {
   display: flex;
   justify-content: center;

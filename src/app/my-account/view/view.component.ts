@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthState } from '../../redux-stores/auth/auth.models';
 import { IsMobileService } from '../../services/is-mobile.service';
 import { IUserInfoState, FireUserProfile } from '../../redux-stores/user/user.model';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-account-view',
@@ -22,7 +23,7 @@ export class AccountViewComponent implements OnInit, OnDestroy {
   authLoading: boolean;
   loadingError: boolean;
 
-  constructor(private store: Store<AppState>, public ims: IsMobileService) {
+  constructor(private store: Store<AppState>, public ims: IsMobileService, private us: UserService) {
 
   }
 
@@ -36,6 +37,8 @@ export class AccountViewComponent implements OnInit, OnDestroy {
         this.displayUserProfile(userProfile, authUser);
       }
     );
+
+    this.us.getUserProfile();
   }
 
   displayUserProfile(userProfile: IUserInfoState, authUser: AuthState) {
@@ -43,7 +46,8 @@ export class AccountViewComponent implements OnInit, OnDestroy {
       this.authLoading = userProfile.loading;
       this.user = userProfile.userInfo;
       this.loadingError = userProfile.error;
-    } else if (authUser.verifiedUser) {
+    }
+    else if (authUser.verifiedUser) {
       this.authLoading = authUser.loading;
       this.user = authUser.verifiedUser;
       this.loadingError = authUser.error;

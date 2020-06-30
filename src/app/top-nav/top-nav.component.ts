@@ -13,6 +13,8 @@ import * as utils from '../shared/utils/general.utils';
 import { CapitalizeFirstLetterPipe } from '../shared/pipes/letters.pipe';
 import { environment } from '../../environments/environment';
 
+const defaultProfileImg: string = "assets/banner/placeholder-logo.png";
+
 @Component({
   selector: 'app-top-nav',
   templateUrl: 'top-nav.component.html',
@@ -33,6 +35,7 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   userMenuIcon: string; //account_circle
   userMenuItems: MenuItem[] = [];
   loading: boolean;
+  avartarImgSrc: string = "assets/banner/placeholder-logo.png";
 
   @Output()
   navToggle: EventEmitter<any> = new EventEmitter<any>();
@@ -40,8 +43,10 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(public router: Router, public route: ActivatedRoute,
     public as: AuthService, private store: Store<AppState>,
     private capitalize: CapitalizeFirstLetterPipe) {
+
       this.store.select("appAuth").subscribe(
         (state: AuthState) => {
+          this.setUserProfileImg(state);
           this.loading = state.loading;
           this.buildUserMenuItems(state.verifiedUser);
           this.userMenuIcon = state.verifiedUser ? "account_circle" : "perm_identity";
@@ -53,6 +58,14 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.animateLogoOnStart();
 
+  }
+
+  setUserProfileImg(as: AuthState) {
+    if (as.verifiedUser) {
+      this.avartarImgSrc = as.verifiedUser?.photoURL;
+    } else {
+      this.avartarImgSrc = defaultProfileImg;
+    }
   }
 
   ngAfterViewInit() {
