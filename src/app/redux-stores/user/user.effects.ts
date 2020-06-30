@@ -5,8 +5,9 @@ import * as UserActions from './user.actions';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import * as AuthUtils from '../../shared/utils/auth.utils';
-import { ToasterService } from 'src/app/services/toaster.service';
+import { ToasterService } from '../../services/toaster.service';
 import { FireUserProfile } from './user.model';
+import { VerifiedUser } from '../../shared/models/user.model';
 
 @Injectable()
 export class UserInfoEffects {
@@ -21,10 +22,11 @@ export class UserInfoEffects {
         const user: firebase.User = firebase.auth().currentUser;
         return user.updateProfile({
           displayName: data.info.displayName,
-          photoURL: data.info.photoUrl
+          photoURL: data.info.photoURL
         }).then(
           () => {
-            return UserActions.saveUserProfileSuccess({info: data.info});
+            this.ts.getSuccess("Profile updated.");
+            return UserActions.getUserProfileStart();
           },
           (rej) => {
             return UserActions.saveUserProfileFailure({errorMsg: AuthUtils.getFirebaseErrorMsg(rej)})
@@ -33,15 +35,6 @@ export class UserInfoEffects {
       })
     );
   });
-
-  updateProfileSuccess$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(UserActions.saveUserProfileSuccess),
-      tap(() => {
-        this.ts.getSuccess("Profile updated.")
-      })
-    );
-  }, {dispatch: false});
 
   updateProfileFailure$ = createEffect(() => {
     return this.actions$.pipe(
@@ -59,21 +52,11 @@ export class UserInfoEffects {
       map(() => {
         const user: firebase.User = firebase.auth().currentUser;
         if (user) {
-          const profile: FireUserProfile = new FireUserProfile(user.displayName, user.email,
-            user.photoURL, user.emailVerified, user.uid);
-          return UserActions.getUserProfileSuccess({fireProfile: profile});
+          const u = (<VerifiedUser>user.toJSON());
+          return UserActions.getUserProfileSuccess({fireProfile: u});
         }
         return UserActions.getUserProfileFailure({errorMsg: "User is not logged in."});
       })
     );
   });
-
-  getUserProfileFailure$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(UserActions.getUserProfileFailure),
-      tap(() => {
-        this.ts.getError("USer has not logged in.");
-      })
-    );
-  }, {dispatch: false});
 }

@@ -6,11 +6,11 @@
   </div>
 </div>
 
-<div class="row mb-3" *ngIf="user; else noUser">
+<div class="row mb-3" *ngIf="!loading; else dataLoading">
   <div class="col-sm-12 roboto">
     <mat-card class="profile-card">
       <mat-card-header>
-        <img mat-card-avatar [src]="user.photoUrl ? user.photoUrl : defaultAvartarImgSrc">
+        <img mat-card-avatar [src]="user.photoURL ? user.photoURL : defaultAvartarImgSrc">
         <mat-card-title>{{user.displayName ? user.displayName : 'No Display Name Entered'}}
           {{infoFg.pristine ? "" : "*"}}
         </mat-card-title>
@@ -31,18 +31,7 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <!-- <div class="mb-3">
-              <mat-form-field class="full-w">
-                <mat-label>Phone Number</mat-label>
-                <span matPrefix>+1 &nbsp;</span>
-                <input matInput [errorStateMatcher]="matcher" placeholder="7031234567" formControlName="phoneNumber">
-                <mat-icon matSuffix>phone</mat-icon>
-                <mat-hint>We will never spam you.</mat-hint>
-                <mat-error *ngIf="infoFg.get('phoneNumber').hasError('numbersOnly')">
-                  Phone number can only contain numbers.
-                </mat-error>
-              </mat-form-field>
-            </div> -->
+
             <div class="mb-3">
               <mat-form-field class="full-w">
                 <mat-label>Photo URL</mat-label>
@@ -52,21 +41,6 @@
             </div>
           </form>
         </div>
-
-        <!-- <form>
-          <div class="form-row">
-            <div class="form-group col-sm-3">
-              <label >Access Token</label>
-              <input type="text" class="form-control"
-                [value]="user.stsTokenManager.accessToken" readonly>
-            </div>
-            <div class="form-group col-sm-9">
-              <label >Token Expire Time</label>
-              <input type="text" class="form-control"
-                [value]="user.stsTokenManager.expirationTime | dateDisplay:'FULLANDFROMNOW'" readonly>
-            </div>
-          </div>
-        </form> -->
       </mat-card-content>
       <div *ngIf="formError" class="alert alert-danger" role="alert">
         Please fix your inputs before saving.
@@ -80,13 +54,6 @@
 </div>
 
 
-<ng-template #noUser>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="center-align">
-        Loading your profile...
-        <app-loading-spinner [diameter]="30"></app-loading-spinner>
-      </div>
-    </div>
-  </div>
+<ng-template #dataLoading>
+  <app-shared-loading></app-shared-loading>
 </ng-template>

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, combineLatest } from 'rxjs';
 import { VerifiedUser } from '../../shared/models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../redux-stores/global-store/app.reducer';
@@ -28,32 +28,48 @@ export class AccountEditComponent implements OnInit, OnDestroy {
   infoFg: FormGroup;
   formInitValues: any;
   formError: boolean;
+  loading: boolean;
+  loadingError: boolean;
+
 
   constructor(private store: Store<AppState>, public fb: FormBuilder, private us: UserService) {
 
   }
 
   ngOnInit() {
-    this.store.select("userInfoProfile").pipe(
+    const userProfile$ = this.store.select("userInfoProfile");
+    const authUserProfile$ = this.store.select("appAuth");
+    combineLatest(userProfile$, authUserProfile$).pipe(
       takeUntil(this.compDest$)
-    )
-    .subscribe(
-      (state: IUserInfoState) => {
-        this.user = state.userInfo;
-        this.createInfoFg(this.user);
-        this.formInitValues = this.infoFg.value;
-        console.log(this.formInitValues)
+    ).subscribe(
+      ([userProfile, authUser]) => {
+        this.displayUserProfile(userProfile, authUser);
       }
-    )
+    );
 
     this.us.getUserProfile();
+  }
+
+  displayUserProfile(userProfile: IUserInfoState, authUser: AuthState) {
+    if (userProfile.userInfo) {
+      this.loading = userProfile.loading;
+      this.user = userProfile.userInfo;
+      this.loadingError = userProfile.error;
+    } else if (authUser.verifiedUser) {
+      this.loading = authUser.loading;
+      const p = new FireUserProfile(authUser.verifiedUser.displayName, authUser.verifiedUser.photoURL, authUser.verifiedUser.email,
+        authUser.verifiedUser.emailVerified, authUser.verifiedUser.uid);
+      this.user = p;
+      this.loadingError = authUser.error;
+    }
+    this.createInfoFg(this.user);
   }
 
   createInfoFg(u: UserInfo) {
     this.infoFg = this.fb.group({
       displayName: createFormControl(u?.displayName, false, [fromValidators.alphaNumericValidator]),
       //phoneNumber: createFormControl(u?.phoneNumber, false, [fromValidators.numbersOnlyValidator]),
-      photoUrl: createFormControl(u?.photoUrl, false),
+      photoUrl: createFormControl(u?.photoURL, false),
     });
   }
 

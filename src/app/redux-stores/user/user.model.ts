@@ -1,14 +1,12 @@
+import { VerifiedUser } from 'src/app/shared/models/user.model';
+
 export interface IUserInfo {
   displayName: string;
-  email?: string;
-  photoUrl: string;
-  emailVerfied?: boolean;
-  uid?: string;
+  photoURL: string;
 }
 
 export class UserInfo implements IUserInfo {
-  constructor(public displayName: string, public photoUrl: string, public email?: string, public emailVerfied?: boolean,
-    public uid?: string) {}
+  constructor(public displayName: string, public photoURL: string) {}
 }
 
 /**
@@ -16,13 +14,14 @@ export class UserInfo implements IUserInfo {
  * To get a user's profile information, use the properties of an instance of User.
  */
 export class FireUserProfile {
-  constructor(public displayName: string, public photoUrl: string, public email?: string,  public emailVerfied?: boolean,
+  constructor(public displayName: string, public photoURL: string, public email?: string,  public emailVerfied?: boolean,
     public uid?: string) {
     }
 }
 
 export interface IUserInfoState {
-  userInfo: FireUserProfile;
+  userInfo: VerifiedUser;
+  profileToSave: UserInfo;
   loading: boolean;
   error: boolean;
   errMsg: string;

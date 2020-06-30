@@ -23,7 +23,7 @@ export class VerifiedUser {
     public createdAt: string,
     public displayName: string,
     public email: string,
-    public emailVerified: string,
+    public emailVerified: boolean,
     public isAnonymous: string,
     public lastLoginAt: string,
     public photoURL: string,

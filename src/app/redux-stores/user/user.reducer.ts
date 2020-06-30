@@ -7,6 +7,7 @@ import { IUserInfoState } from './user.model';
  */
 const inititalState: IUserInfoState = {
   userInfo: null,
+  profileToSave: null,
   loading: false,
   error: false,
   errMsg: null
@@ -18,7 +19,7 @@ export const userInfoReducer = createReducer(
   on(userActions.saveUserProfileStart, (state, {info}) => {
     return {
       ...state,
-      userInfo: info,
+      profileToSave: info,
       loading: true,
       errMsg: null,
       error: false
@@ -27,7 +28,7 @@ export const userInfoReducer = createReducer(
   on(userActions.saveUserProfileSuccess, (state, {info}) => {
     return {
       ...state,
-      userInfo: info,
+      profileToSave: info,
       loading: false,
       errMsg: null,
       error: false

@@ -12,7 +12,7 @@ const SAVE_USER_PROFILE_FAILURE: string = "[User/Profile] Save User Profile Fail
 
 export const saveUserProfileStart = createAction(
   SAVE_USER_PROFILE_START,
-  props<{info: UserInfo}>()
+  props<{info: IUserInfo}>()
 )
 
 export const saveUserProfileSuccess = createAction(
@@ -31,7 +31,7 @@ export const getUserProfileStart = createAction(
 
 export const getUserProfileSuccess = createAction(
   GET_USER_PROFILE_SUCCESS,
-  props<{fireProfile: FireUserProfile}>()
+  props<{fireProfile: VerifiedUser}>()
 )
 
 export const getUserProfileFailure = createAction(
