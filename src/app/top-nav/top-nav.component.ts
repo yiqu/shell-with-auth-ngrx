@@ -13,7 +13,7 @@ import * as utils from '../shared/utils/general.utils';
 import { CapitalizeFirstLetterPipe } from '../shared/pipes/letters.pipe';
 import { environment } from '../../environments/environment';
 
-const defaultProfileImg: string = "assets/banner/placeholder-logo.png";
+const defaultProfileImg: string = "assets/user/default-user.png";
 
 @Component({
   selector: 'app-top-nav',
@@ -35,7 +35,7 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   userMenuIcon: string; //account_circle
   userMenuItems: MenuItem[] = [];
   loading: boolean;
-  avartarImgSrc: string = "assets/banner/placeholder-logo.png";
+  avartarImgSrc: string = defaultProfileImg;
 
   @Output()
   navToggle: EventEmitter<any> = new EventEmitter<any>();
