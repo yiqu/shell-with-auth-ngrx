@@ -155,17 +155,15 @@ h2 {
   background-color: #990000;
 }
 
+/**
+   Make row below sticky row also sticky
+**/
 .sub-row-sticky {
   position: sticky;
   top: 8px;
   z-index: 3;
   background-color: #fafafa;
 }
-
-/* hr {
-  margin-top: 0rem !important;
-  margin-bottom: 0rem !important;
-} */
 
 .text-green {
   color: #29a329;
@@ -175,6 +173,9 @@ h2 {
   color: #e62e00;
 }
 
+/**
+Used to sticky button rows, etc
+**/
 .sticky-top {
   position: sticky;
   top: 0;
@@ -188,4 +189,19 @@ h2 {
   position: sticky;
   top: 56px;
   z-index: 2;
+}
+
+/**
+  User profile drop down menu
+**/
+.user-profile-menu {
+  min-width: 10rem !important;
+}
+
+/**
+ Creates a HR with no margin
+**/
+.hr-no-margin {
+  margin-top: 0;
+  margin-bottom: 0;
 }

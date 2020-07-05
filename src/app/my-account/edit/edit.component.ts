@@ -1,24 +1,27 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject, combineLatest } from 'rxjs';
+import { Subject, combineLatest, Observable } from 'rxjs';
 import { VerifiedUser } from '../../shared/models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../redux-stores/global-store/app.reducer';
 import { takeUntil } from 'rxjs/operators';
 import { AuthState } from '../../redux-stores/auth/auth.models';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { createFormControl } from '../../shared/utils/form.utils';
 import { ErrorStateMatcher } from '@angular/material/core';
 import * as em from '../../shared/error-matchers/error-state.matcher';
 import * as fromValidators from '../../shared/form-validators/general-form.validator';
 import { UserService } from '../../services/user.service';
 import { UserInfo, IUserInfoState, FireUserProfile } from '../../redux-stores/user/user.model';
+import { CanComponentDeactivate } from '../../shared/route-guards/deactivate-from-input.guard';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogConfirmComponent } from '../../shared/custom/dialog/dialog.component';
 
 @Component({
   selector: 'app-account-edit',
   templateUrl: 'edit.component.html',
-  styleUrls: ['./edit.component.css']
+  styleUrls: ['./edit.component.css', '../my.component.css']
 })
-export class AccountEditComponent implements OnInit, OnDestroy {
+export class AccountEditComponent implements OnInit, OnDestroy, CanComponentDeactivate {
 
   matcher: ErrorStateMatcher = new em.AfterActionsErrorStateMatcher();
   updateSubText: string = "Update my profile";
@@ -32,7 +35,13 @@ export class AccountEditComponent implements OnInit, OnDestroy {
   loadingError: boolean;
 
 
-  constructor(private store: Store<AppState>, public fb: FormBuilder, private us: UserService) {
+  get photoUrlFc(): FormControl {
+    return <FormControl>this.infoFg.get("photoUrl");
+  }
+
+
+  constructor(private store: Store<AppState>, public fb: FormBuilder, private us: UserService,
+    public dialog: MatDialog) {
 
   }
 
@@ -71,6 +80,11 @@ export class AccountEditComponent implements OnInit, OnDestroy {
       //phoneNumber: createFormControl(u?.phoneNumber, false, [fromValidators.numbersOnlyValidator]),
       photoUrl: createFormControl(u?.photoURL, false),
     });
+    this.setInitialValue(this.infoFg.value);
+  }
+
+  setInitialValue(val) {
+    this.formInitValues = val;
   }
 
 
@@ -92,5 +106,24 @@ export class AccountEditComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.compDest$.next();
     this.compDest$.complete();
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (this.infoFg.pristine) {
+      return true;
+    } else {
+      return this.openConfirmDialog();
+    }
+  }
+
+  openConfirmDialog() {
+    const dialogRef = this.dialog.open(DialogConfirmComponent, {
+      minWidth: '300px',
+      data: {actionName: "leave this page? There are unsaved changes."}
+    });
+
+    return dialogRef.afterClosed().pipe(
+      takeUntil(this.compDest$)
+    );
   }
 }

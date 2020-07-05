@@ -21,7 +21,7 @@ export class MyAccountComponent implements OnInit, OnDestroy {
   constructor() {
     this.tabLinks.push(
       new NavItem("view", "Overview", "view", false, 'account_circle'),
-      new NavItem("edit", "Update", "edit", false, 'edit'),
+      new NavItem("edit", "Edit", "edit", false, 'edit'),
     );
   }
 

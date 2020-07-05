@@ -111,9 +111,9 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   buildUserMenuItems(u: VerifiedUser) {
     this.userMenuItems = [];
     if (u) {
-      const displayName = utils.createInitAlias(u.email);
+      const displayName = u.displayName ? u.displayName : utils.createInitAlias(u.email);
       this.userMenuItems.push(
-        new MenuItem(null, this.capitalize.transform(displayName), null,
+        new MenuItem(null, "Signed in as " + (displayName), null,
           true),
         new MenuItem("account_circle", "My profile", "account"),
         new MenuItem("forward", "Sign Out", "signout")
