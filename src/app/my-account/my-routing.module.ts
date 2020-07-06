@@ -4,7 +4,7 @@ import { MyAccountComponent } from './my.component';
 import { AccountViewComponent } from './view/view.component';
 import { AccountEditComponent } from './edit/edit.component';
 import { NoVerifiedUserGuard } from '../shared/route-guards/no-user.guard';
-import { CanDeactivateFromUserInputGuard } from '../shared/route-guards/deactivate-from-input.guard';
+import { CanDeactivateGuard } from '../shared/route-guards/can-deactivate.guard';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'view', pathMatch: 'full' },
       { path: 'view', component: AccountViewComponent },
-      { path: 'edit', component: AccountEditComponent, canDeactivate: [CanDeactivateFromUserInputGuard] }
+      { path: 'edit', component: AccountEditComponent, canDeactivate: [CanDeactivateGuard] }
     ]
   }
 ];

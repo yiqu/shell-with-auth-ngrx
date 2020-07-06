@@ -12,7 +12,7 @@ import * as em from '../../shared/error-matchers/error-state.matcher';
 import * as fromValidators from '../../shared/form-validators/general-form.validator';
 import { UserService } from '../../services/user.service';
 import { UserInfo, IUserInfoState, FireUserProfile } from '../../redux-stores/user/user.model';
-import { CanComponentDeactivate } from '../../shared/route-guards/deactivate-from-input.guard';
+import { CanComponentDeactivate } from '../../shared/route-guards/can-deactivate.guard';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/custom/dialog/dialog.component';
 
