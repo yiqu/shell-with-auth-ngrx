@@ -44,7 +44,9 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
     public as: AuthService, private store: Store<AppState>,
     private capitalize: CapitalizeFirstLetterPipe) {
 
-      this.store.select("appAuth").subscribe(
+      this.store.select("appAuth").pipe(
+        takeUntil(this.compDest$)
+      ).subscribe(
         (state: AuthState) => {
           this.setUserProfileImg(state);
           this.loading = state.loading;
