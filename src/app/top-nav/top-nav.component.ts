@@ -7,11 +7,10 @@ import { MenuItem } from '../shared/models/nav-item.model';
 import { AuthService } from '../services/auth.service';
 import { AppState } from '../redux-stores/global-store/app.reducer';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../redux-stores/auth/auth.models';
 import { VerifiedUser } from '../shared/models/user.model';
 import * as utils from '../shared/utils/general.utils';
-import { CapitalizeFirstLetterPipe } from '../shared/pipes/letters.pipe';
 import { environment } from '../../environments/environment';
+import { IUserInfoState } from '../redux-stores/user/user.model';
 
 const defaultProfileImg: string = "assets/user/default-user.png";
 
@@ -41,17 +40,16 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   navToggle: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(public router: Router, public route: ActivatedRoute,
-    public as: AuthService, private store: Store<AppState>,
-    private capitalize: CapitalizeFirstLetterPipe) {
-
-      this.store.select("appAuth").pipe(
+    public as: AuthService, private store: Store<AppState>) {
+      this.loading = true;
+      this.store.select("userInfoProfile").pipe(
         takeUntil(this.compDest$)
       ).subscribe(
-        (state: AuthState) => {
-          this.setUserProfileImg(state);
+        (state: IUserInfoState) => {
           this.loading = state.loading;
-          this.buildUserMenuItems(state.verifiedUser);
-          this.userMenuIcon = state.verifiedUser ? "account_circle" : "perm_identity";
+          this.setUserProfileImg(state.userInfo);
+          this.buildUserMenuItems(state.userInfo);
+          this.userMenuIcon = state.userInfo ? "account_circle" : "perm_identity";
         }
       )
 
@@ -62,9 +60,9 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  setUserProfileImg(as: AuthState) {
-    if (as.verifiedUser) {
-      this.avartarImgSrc = as.verifiedUser?.photoURL;
+  setUserProfileImg(u: VerifiedUser) {
+    if (u) {
+      this.avartarImgSrc = u.photoURL;
     } else {
       this.avartarImgSrc = defaultProfileImg;
     }

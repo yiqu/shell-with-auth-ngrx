@@ -5,10 +5,10 @@ import 'firebase/database';
 import { AngularFirestore, AngularFirestoreDocument,
   AngularFirestoreCollection } from '@angular/fire/firestore';
 import { VerifiedUser, AuthInfoFromUser, AuthEmailCredential } from '../shared/models/user.model';
-import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../redux-stores/global-store/app.reducer';
 import * as AuthActions from '../redux-stores/auth/auth.actions';
+import * as UserActions from '../redux-stores/user/user.actions';
 import { UserRegistrationFromEmailActionProp, LoginSuccessActionProp } from '../redux-stores/auth/auth.models';
 
 @Injectable({
@@ -28,6 +28,7 @@ export class AuthService {
           const u = (<VerifiedUser>user.toJSON());
           this.setVerifiedUser(u, firstAuthUserFetchCallCompleted, true);
           firstAuthUserFetchCallCompleted = true;
+          this.store.dispatch(UserActions.getUserProfileStart());
         } else {
           this.unsetVerifiedUser();
           firstAuthUserFetchCallCompleted = true;

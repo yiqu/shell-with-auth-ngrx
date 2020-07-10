@@ -8,6 +8,9 @@ import { AppState } from '../../redux-stores/global-store/app.reducer';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../redux-stores/auth/auth.models';
 
+/**
+ * Check if user is already logged in, Protect routes from logged-in user.
+ */
 @Injectable({
   providedIn: 'root'
 })
