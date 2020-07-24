@@ -41,7 +41,7 @@ export class AuthEffects {
             (u: firebase.auth.UserCredential) => {
               return fromAuthActions.authLoginFirebaseRequestSuccess();
             },
-            (rej) => {
+            (rej: FirebasePromiseError) => {
               const authErrMsg = AuthUtils.getFirebaseErrorMsg(rej);
               const prop = new LoginFailureActionProp(authErrMsg);
               return fromAuthActions.authLoginFailure(prop);
@@ -81,7 +81,7 @@ export class AuthEffects {
               const p = new AuthVerifiedUserProp(user);
               return fromAuthActions.authAddNewRegisteredUserToDatabase(p);
             },
-            (rej) => {
+            (rej: FirebasePromiseError) => {
               const authErrMsg = AuthUtils.getFirebaseErrorMsg(rej);
               const prop = new LoginFailureActionProp(authErrMsg);
               return fromAuthActions.authUserRegistrationFromEmailFailure(prop);
@@ -100,7 +100,7 @@ export class AuthEffects {
           this.ts.getSuccess("User created.");
           return fromAuthActions.authAddNewRegisteredUserToDbSuccess();
         },
-        (rej) => {
+        (rej: FirebasePromiseError) => {
           this.ts.getError("Error occured adding user.");
           return fromAuthActions.authAddNewRegisteredUserToDbFail();
         });
