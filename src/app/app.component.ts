@@ -70,7 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUserFromLocalStorage(): VerifiedUser {
+  getUserFromLocalStorage(): VerifiedUser | null{
     const localStorageUser: any = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_KEY));
     if (!localStorageUser) {
       return null;
