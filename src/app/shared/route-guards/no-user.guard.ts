@@ -28,7 +28,7 @@ export class NoVerifiedUserGuard implements CanActivate {
         if (state.verifiedUser) {
           return true;
         }
-        return this.router.createUrlTree(['/', 'auth', 'signin']);;;
+        return this.router.createUrlTree(['/', 'auth', 'signin']);
       }),
     );
   }
@@ -52,7 +52,7 @@ export class NoVerifiedUserChildrenGuard implements CanActivateChild {
         if (state.verifiedUser) {
           return true;
         }
-        return this.router.createUrlTree(['/', 'auth', 'signin']);;;
+        return this.router.createUrlTree(['/', 'auth', 'signin']);
       }),
     );
   }

@@ -35,7 +35,7 @@ export class AngularFireService {
       catchError((err: FirebasePromiseError) => {
         return throwError(authutils.getFirebaseErrorMsg(err));
       })
-    );;
+    );
   }
 
   setDocByPath(path: string, payload: any) {

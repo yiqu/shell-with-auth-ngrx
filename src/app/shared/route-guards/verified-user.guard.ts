@@ -26,7 +26,7 @@ export class AuthUserAlreadyLoggedInGuard implements CanActivate {
       take(1),
       map((state: AuthState) => {
         if (state.verifiedUser) {
-          return this.router.createUrlTree(['/', 'my-account']);;
+          return this.router.createUrlTree(['/', 'my-account']);
         }
         return true;
       }),
@@ -50,7 +50,7 @@ export class AuthUserAlreadyLoggedInChildrenGuard implements CanActivateChild {
         take(1),
         map((state: AuthState) => {
           if (state.verifiedUser) {
-            return this.router.createUrlTree(['/', 'my-account']);;
+            return this.router.createUrlTree(['/', 'my-account']);
           }
           return true;
         }),
