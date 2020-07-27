@@ -26,6 +26,8 @@ export const authReducer = createReducer(
     }
   }),
   // Firebase auth valueChanges logged in with a user
+  // TODO: set loading based on a variable so auto logging in does not
+  // cancel loading
   on(AuthActions.authLoginSuccess, (state, {verifiedUser}) => {
     const u = verifiedUser;
     return {
