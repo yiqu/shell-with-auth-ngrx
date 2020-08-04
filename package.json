@@ -13,6 +13,10 @@
   "author": {
     "name": "Yi Qu"
   },
+  "repository": {
+    "url": "https://github.com/yiqu/shell-with-auth-ngrx"
+  },
+  "license": "MIT",
   "private": false,
   "dependencies": {
     "@angular/animations": "~10.0.2",
@@ -71,6 +75,6 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~3.9.6",
-    "firebase-tools": "^8.4.3"
+    "firebase-tools": "^8.6.0"
   }
 }
