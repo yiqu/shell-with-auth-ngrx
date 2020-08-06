@@ -43,7 +43,6 @@ export class AuthService {
     if (fireUser) {
       const u = (<VerifiedUser>fireUser.toJSON());
       this.setVerifiedUser(u, this.firstAuthUserFetchCallAndRedirect, true);
-      this.store.dispatch(UserActions.getUserProfileStart());
     } else {
       this.unsetVerifiedUser();
     }

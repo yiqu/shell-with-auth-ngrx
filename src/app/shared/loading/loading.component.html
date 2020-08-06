@@ -16,6 +16,32 @@
       </div>
     </div>
   </div>
+  <div class="row" *ngIf="debugMode">
+    <div class="col-sm-12">
+      <div>
+        Load Mask Status: {{appLoadMask}}
+      </div>
+      <div>
+        CRUD Status: {{crudLoaded}}
+      </div>
+      <div>
+        User Status: {{user}}
+      </div>
+      <div>
+        UID: {{uid}}
+      </div>
+      <div>
+        Error Status: {{error}}
+      </div>
+      <div>
+        Error Message: {{errMsg}}
+      </div>
+      <div>
+        Get User Status Step: {{getUserStatus}}
+      </div>
+
+    </div>
+  </div>
 </div>
 
 

@@ -4,7 +4,7 @@ import { NoVerifiedUserGuard } from './shared/route-guards/no-user.guard';
 import { NotFoundComponent } from './404/404.component';
 import { NetworkAwarePreloadStrategy } from './shared/preload-strategies/preload-network';
 import { HomeComponent } from './home/home.component';
-import { DeleteMeComponent } from './home/delete-me.component';
+import { PublicComponent } from './home/public/public.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -12,7 +12,7 @@ const routes: Routes = [
     children:
       [
         { path: "", redirectTo: 'public', pathMatch: 'full' },
-        { path: "public", component: DeleteMeComponent },
+        { path: "public", component: PublicComponent },
       ]
   },
   { path: 'core',

@@ -26,7 +26,8 @@ export const userDBReducer = createReducer(
       crudLoaded: false,
       user: null,
       error: false,
-      errorMsg: null
+      errorMsg: null,
+      getUserStart: "STARTED"
     }
   }),
   on(userDBActions.getUserDBEntrySuccess, (state, {user}) => {
@@ -36,7 +37,8 @@ export const userDBReducer = createReducer(
       crudLoaded: true,
       user: user,
       error: false,
-      errorMsg: null
+      errorMsg: null,
+      getUserStart: "SUCCESS"
     }
   }),
   on(userDBActions.getUserDBEntryFailure, (state, {errorMsg}) => {
@@ -46,7 +48,8 @@ export const userDBReducer = createReducer(
       crudLoaded: true,
       user: null,
       error: true,
-      errorMsg: errorMsg
+      errorMsg: errorMsg,
+      getUserStart: "FAIL"
     }
   }),
 

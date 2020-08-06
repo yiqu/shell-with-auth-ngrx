@@ -15,6 +15,7 @@ import { UserInfo, IUserInfoState, FireUserProfile } from '../../redux-stores/us
 import { CanComponentDeactivate } from '../../shared/route-guards/can-deactivate.guard';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmComponent } from '../../shared/custom/dialog/dialog.component';
+import { IUserDBState } from 'src/app/redux-stores/user-database/user-db.model';
 
 @Component({
   selector: 'app-account-edit',
@@ -43,35 +44,25 @@ export class AccountEditComponent implements OnInit, OnDestroy, CanComponentDeac
   constructor(private store: Store<AppState>, public fb: FormBuilder, private us: UserService,
     public dialog: MatDialog) {
 
+      this.store.select("userDB").pipe(
+        takeUntil(this.compDest$)
+      ).subscribe(
+        (state: IUserDBState) => {
+          this.displayProfile(state);
+        }
+      );
   }
 
   ngOnInit() {
-    const userProfile$ = this.store.select("userInfoProfile");
-    const authUserProfile$ = this.store.select("appAuth");
-    combineLatest(userProfile$, authUserProfile$).pipe(
-      takeUntil(this.compDest$)
-    ).subscribe(
-      ([userProfile, authUser]) => {
-        this.displayUserProfile(userProfile, authUser);
-      }
-    );
-
-    this.us.getUserProfile();
   }
 
-  displayUserProfile(userProfile: IUserInfoState, authUser: AuthState) {
-    if (userProfile.userInfo) {
-      this.loading = userProfile.loading;
-      this.user = userProfile.userInfo;
-      this.loadingError = userProfile.error;
-    } else if (authUser.verifiedUser) {
-      this.loading = authUser.loading;
-      const p = new FireUserProfile(authUser.verifiedUser.displayName, authUser.verifiedUser.photoURL, authUser.verifiedUser.email,
-        authUser.verifiedUser.emailVerified, authUser.verifiedUser.uid);
-      this.user = p;
-      this.loadingError = authUser.error;
+  displayProfile(d: IUserDBState) {
+    this.loading = !d.crudLoaded;
+    this.user = d.user;
+    this.loadingError = d.error;
+    if (this.user) {
+      this.createInfoFg(this.user);
     }
-    this.createInfoFg(this.user);
   }
 
   createInfoFg(u: UserInfo) {

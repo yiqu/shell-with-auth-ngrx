@@ -8,6 +8,7 @@ import { AuthState } from '../../redux-stores/auth/auth.models';
 import { IsMobileService } from '../../services/is-mobile.service';
 import { IUserInfoState, FireUserProfile } from '../../redux-stores/user/user.model';
 import { UserService } from 'src/app/services/user.service';
+import { IUserDBState } from 'src/app/redux-stores/user-database/user-db.model';
 
 @Component({
   selector: 'app-account-view',
@@ -20,13 +21,24 @@ export class AccountViewComponent implements OnInit, OnDestroy {
   defaultAvartarImgSrc: string = "assets/banner/placeholder-logo.png";
   compDest$: Subject<any> = new Subject<any>();
   user: VerifiedUser & FireUserProfile;
-  authLoading: boolean;
+  dataLoading: boolean;
   loadingError: boolean;
 
   constructor(private store: Store<AppState>, public ims: IsMobileService, private us: UserService) {
+    // TODO Retrieve info from User DB to display login times
 
+    // this.store.select("userDB").pipe(
+    //   takeUntil(this.compDest$)
+    // ).subscribe(
+    //   (state: IUserDBState) => {
+    //     this.displayProfile(state);
+    //   }
+    // );
   }
 
+  /**
+   * Retrieve info from actual Firebase User Info
+   */
   ngOnInit() {
     const userProfile$ = this.store.select("userInfoProfile");
     const authUserProfile$ = this.store.select("appAuth");
@@ -41,14 +53,20 @@ export class AccountViewComponent implements OnInit, OnDestroy {
     this.us.getUserProfile();
   }
 
+  displayProfile(d: IUserDBState) {
+    this.dataLoading = !d.crudLoaded;
+    this.user = d.user;
+    this.loadingError = d.error;
+  }
+
   displayUserProfile(userProfile: IUserInfoState, authUser: AuthState) {
     if (userProfile.userInfo) {
-      this.authLoading = userProfile.loading;
+      this.dataLoading = userProfile.loading;
       this.user = userProfile.userInfo;
       this.loadingError = userProfile.error;
     }
-    else if (authUser.verifiedUser) {
-      this.authLoading = authUser.loading;
+    else {
+      this.dataLoading = authUser.loading;
       this.user = authUser.verifiedUser;
       this.loadingError = authUser.error;
     }

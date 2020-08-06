@@ -11,5 +11,5 @@ export const environment = {
     measurementId: "G-M0BEH1ES0C"
   },
   entityName: "PLACEHOLDER",
-  gAnalytics: true
+  gAnalytics: false
 };

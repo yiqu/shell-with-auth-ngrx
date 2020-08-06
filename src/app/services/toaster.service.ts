@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToasterService {
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  constructor(private ts: ToastrService) {
+  constructor(private ts: ToastrService, private _snackBar: MatSnackBar) {
 
   }
 
@@ -25,8 +32,20 @@ export class ToasterService {
     this.ts.info(msg, "Info");
   }
 
+  getSnackbar(msg: string) {
+    this.openSnackBar(msg);
+  }
+
   clearAll() {
     this.ts.clear();
+  }
+
+  private openSnackBar(msg: string) {
+    this._snackBar.open(msg, '', {
+      duration: 500,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
 
 }
