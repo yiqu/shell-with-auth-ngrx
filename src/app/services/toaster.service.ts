@@ -32,17 +32,21 @@ export class ToasterService {
     this.ts.info(msg, "Info");
   }
 
-  getSnackbar(msg: string) {
-    this.openSnackBar(msg);
+  getSnackbar(msg: string, dur?: number) {
+    if (msg.slice(-1) !== ".") {
+      msg = msg + ".";
+    }
+    this.openSnackBar(msg, dur);
   }
 
   clearAll() {
     this.ts.clear();
   }
 
-  private openSnackBar(msg: string) {
+  private openSnackBar(msg: string, dur: number = 3000) {
     this._snackBar.open(msg, '', {
-      duration: 500,
+      duration: dur,
+      panelClass: 'app-snackbar',
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });

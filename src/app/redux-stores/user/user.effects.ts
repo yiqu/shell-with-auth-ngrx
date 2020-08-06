@@ -41,7 +41,7 @@ export class UserInfoEffects {
       ofType(UserActions.saveUserProfileSuccess),
       switchMap((data) => {
         const info: IUserInfo = data.info;
-        this.ts.getSuccess("Profile updated for " + info.displayName);
+        this.ts.getSnackbar("Profile updated for " + info.displayName);
         return [
           UserActions.getUserProfileStart(),
           UserDbActions.updateUserDBProfileEntryStart({userProfile: info, uid: data.uid})

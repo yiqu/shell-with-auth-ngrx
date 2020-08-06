@@ -120,7 +120,7 @@ export class AuthEffects {
           })
           .then(
             (u: firebase.auth.UserCredential) => {
-              this.ts.getSuccess("Your account has been successfully registered.");
+              this.ts.getSnackbar("Your account has been successfully registered.");
               const user: VerifiedUser = <VerifiedUser>u.user.toJSON();
               user.inAppAliases = JSON.parse(JSON.stringify(new InAppAlias(JSON.parse(JSON.stringify(new User(user.uid, user.email, {...user}))))));
               const p = new AuthVerifiedUserProp(user);
@@ -142,7 +142,7 @@ export class AuthEffects {
       switchMap((user) => {
         const userIdDoc: AngularFirestoreDocument = this.afs.doc(this.usersBaseUrl + user.user.uid);
         return userIdDoc.set(user.user).then(() => {
-          this.ts.getSuccess("User created.");
+          this.ts.getSnackbar("User created.");
           return fromAuthActions.authAddNewRegisteredUserToDbSuccess();
         },
         (rej: FirebasePromiseError) => {
@@ -163,7 +163,7 @@ export class AuthEffects {
           urlSegs.push("/", "auth");
         }
         if (options.showAlert) {
-          this.ts.getSuccess("You are logged out.");
+          this.ts.getSnackbar("You are logged out.");
         }
         return [
           fromRouterActions.redirectWithUrl({url: urlSegs}),
@@ -183,7 +183,7 @@ export class AuthEffects {
           urlToRedirect.push("/");
         }
         if (opts.showAlert) {
-          this.ts.getSuccess("You are logged in.", 4000, true);
+          this.ts.getSnackbar("You are logged in.", 4000);
         }
         return [
           fromRouterActions.redirectWithUrl({url: urlToRedirect}),
@@ -200,7 +200,7 @@ export class AuthEffects {
     return this.actions$.pipe(
       ofType(fromAuthActions.authAutoLogin),
       map((opts) => {
-        this.ts.getSuccess("Auto logging in...");
+        this.ts.getSnackbar("Auto logging in...");
         const prop = new LoginSuccessActionProp(opts.user, false, false);
         return fromAuthActions.authLoginSuccess(prop);
       })
@@ -228,7 +228,7 @@ export class AuthEffects {
     return this.actions$.pipe(
       ofType(fromAuthActions.authResetPasswordSuccess),
       tap((data) => {
-        this.ts.getSuccess("A email with password reset instructions has been sent to " + data.email);
+        this.ts.getSnackbar("A email with password reset instructions has been sent to " + data.email);
       })
     )
   }, {dispatch: false});
