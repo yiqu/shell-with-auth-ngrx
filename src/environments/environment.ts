@@ -12,6 +12,7 @@ export const environment = {
     storageBucket: "kq-1-1a499.appspot.com",
     messagingSenderId: "370493268596",
     appId: "1:370493268596:web:55e44811e2f90c85882721",
+    measurementId: "G-M0BEH1ES0C"
   },
   entityName: "PLACEHOLDER",
   gAnalytics: false

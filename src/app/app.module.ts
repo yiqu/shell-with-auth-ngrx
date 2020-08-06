@@ -35,7 +35,7 @@ import { DeleteMeComponent } from './home/delete-me.component';
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     StoreModule.forRoot(appReducers),
-    environment.production ? [] : StoreDevtoolsModule.instrument({
+    StoreDevtoolsModule.instrument({
       maxAge: 30
     }),
     EffectsModule.forRoot(appEffects),
