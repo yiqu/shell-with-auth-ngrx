@@ -86,6 +86,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.compDest$.next();
+    this.compDest$.complete();
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
