@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { VerifiedUser } from '../shared/models/user.model';
-
+import { LOCAL_STORAGE_USER_KEY } from './auth.service';
 /**
  *
  * Local storage is used to temp store verified user object so when
@@ -15,12 +15,10 @@ import { VerifiedUser } from '../shared/models/user.model';
 })
 export class LocalStorageService {
 
-  private LOCAL_STORAGE_USER_KEY: string = "VERIFIED_USER";
-
   constructor() { }
 
   setCurrentUserFromLocalStorage(): VerifiedUser {
-    const localStorageUser: any = JSON.parse(localStorage.getItem(this.LOCAL_STORAGE_USER_KEY));
+    const localStorageUser: any = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_KEY));
     if (!localStorageUser) {
       return null;
     }
@@ -29,11 +27,11 @@ export class LocalStorageService {
   }
 
   saveCurrentUser(u: VerifiedUser) {
-    localStorage.setItem(this.LOCAL_STORAGE_USER_KEY, JSON.stringify(u));
+    localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(u));
   }
 
   clearCurrentUser() {
-    localStorage.removeItem(this.LOCAL_STORAGE_USER_KEY);
+    localStorage.removeItem(LOCAL_STORAGE_USER_KEY);
   }
 
 }

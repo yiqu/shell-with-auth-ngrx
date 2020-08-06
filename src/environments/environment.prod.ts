@@ -9,5 +9,6 @@ export const environment = {
     messagingSenderId: "370493268596",
     appId: "1:370493268596:web:55e44811e2f90c85882721",
   },
-  entityName: "PLACEHOLDER"
+  entityName: "PLACEHOLDER",
+  gAnalytics: true
 };

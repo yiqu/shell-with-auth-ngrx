@@ -6,6 +6,7 @@ import { LoginFailureActionProp } from '../auth/auth.models';
 const GET_USER_PROFILE_START: string = "[User/Profile] Get User Profile Started";
 const GET_USER_PROFILE_SUCCESS: string = "[User/Profile] Get User Profile Success";
 const GET_USER_PROFILE_FAILURE: string = "[User/Profile] Get User Profile Failure";
+
 const SAVE_USER_PROFILE_START: string = "[User/Profile] Save User Profile Started";
 const SAVE_USER_PROFILE_SUCCESS: string = "[User/Profile] Save User Profile Success";
 const SAVE_USER_PROFILE_FAILURE: string = "[User/Profile] Save User Profile Failure";
@@ -17,7 +18,7 @@ export const saveUserProfileStart = createAction(
 
 export const saveUserProfileSuccess = createAction(
   SAVE_USER_PROFILE_SUCCESS,
-  props<{info: IUserInfo}>()
+  props<{info: IUserInfo, uid: string}>()
 )
 
 export const saveUserProfileFailure = createAction(

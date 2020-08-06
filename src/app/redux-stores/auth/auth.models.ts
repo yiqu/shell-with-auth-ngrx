@@ -24,6 +24,10 @@ export class LoginFailureActionProp {
   }
 }
 
+export class FailureActionProp {
+  constructor(public errorMsg: any) {
+  }
+}
 
 export class UserRegistrationFromEmailActionProp {
   constructor(public userEmail: string, public password: string, public saveSession: boolean) {

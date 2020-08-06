@@ -9,30 +9,26 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../redux-stores/global-store/app.reducer';
 import * as AuthActions from '../redux-stores/auth/auth.actions';
 import * as UserActions from '../redux-stores/user/user.actions';
+import * as UserDbActions from '../redux-stores/user-database/user-db.actions';
 import { UserRegistrationFromEmailActionProp, LoginSuccessActionProp } from '../redux-stores/auth/auth.models';
+
+export const LOCAL_STORAGE_USER_KEY: string = "VERIFIED_USER_PH_KEY";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private afs: AngularFirestore, public store: Store<AppState>) {
-    // this determines if firebase auth has emitted the first result,
-    // if it has not, don't redirect to /, or resume redirect operations
-    let firstAuthUserFetchCallCompleted: boolean = false;
+  // this determines if firebase auth has emitted the first result,
+  // if it has not, don't redirect to /, or resume redirect operations
+  private firstAuthUserFetchCallAndRedirect: boolean = false;
 
+  constructor(private afs: AngularFirestore, public store: Store<AppState>) {
+    let firstAuthUserFetchCallCompleted: boolean = false;
     firebase.auth().onAuthStateChanged(
       (user: firebase.User) => {
-        console.log("Firebase State AUTH:", user ? user.toJSON():user);
-        if (user) {
-          const u = (<VerifiedUser>user.toJSON());
-          this.setVerifiedUser(u, firstAuthUserFetchCallCompleted, true);
-          firstAuthUserFetchCallCompleted = true;
-          this.store.dispatch(UserActions.getUserProfileStart());
-        } else {
-          this.unsetVerifiedUser();
-          firstAuthUserFetchCallCompleted = true;
-        }
+        console.log("Firebase State AUTH:", user ? user.toJSON() : user);
+        this.handleOnAuthChange(user);
       },
       (err) => {
         console.error("Error occured in firebase auth state change trigger.")
@@ -41,6 +37,18 @@ export class AuthService {
         console.info("Firebase auth state change completed.")
       }
     );
+  }
+
+  handleOnAuthChange(fireUser: firebase.User) {
+    if (fireUser) {
+      const u = (<VerifiedUser>fireUser.toJSON());
+      this.setVerifiedUser(u, this.firstAuthUserFetchCallAndRedirect, true);
+      this.store.dispatch(UserActions.getUserProfileStart());
+    } else {
+      this.unsetVerifiedUser();
+    }
+    this.store.dispatch(UserDbActions.getUserDBEntryStart({uid: fireUser?.uid}));
+    this.firstAuthUserFetchCallAndRedirect = true;
   }
 
   registerUser(authInfo: AuthInfoFromUser) {
@@ -75,6 +83,22 @@ export class AuthService {
 
   resetPasswordByEmail(cred: AuthEmailCredential) {
     this.store.dispatch(AuthActions.authResetPasswordStart(cred));
+  }
+
+  autoLoginFromLocalstorage() {
+    const u: VerifiedUser = this.getUserFromLocalStorage();
+    if (u) {
+      this.store.dispatch(AuthActions.authAutoLogin({user: u}))
+    }
+  }
+
+  private getUserFromLocalStorage(): VerifiedUser | null {
+    const localStorageUser: any = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_KEY));
+    if (!localStorageUser) {
+      return null;
+    }
+    console.info("Local Storage: User Present");
+    return localStorageUser;
   }
 
 }

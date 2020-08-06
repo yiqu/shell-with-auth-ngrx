@@ -2,14 +2,15 @@ import { Component, ViewChild, ChangeDetectorRef, OnDestroy, OnInit } from '@ang
 import { MatSidenav } from '@angular/material/sidenav';
 import { MediaMatcher } from '@angular/cdk/layout';
 import * as firebase from 'firebase/app';
+import 'firebase/analytics';
 import { environment } from '../environments/environment';
 import { AppState } from './redux-stores/global-store/app.reducer';
 import { Store } from '@ngrx/store';
-import * as AuthActions from './redux-stores/auth/auth.actions';
-import { VerifiedUser } from './shared/models/user.model';
 import { IsMobileService } from './services/is-mobile.service';
-
-const LOCAL_STORAGE_USER_KEY: string = "VERIFIED_USER";
+import { AuthService } from './services/auth.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { IUserDBState } from './redux-stores/user-database/user-db.model';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   footerTitle: string = "@KQ 2020";
   myUrl: string = "https://yiqu.github.io/";
+  compDest$: Subject<any> = new Subject<any>();
+  userLoaded: boolean;
 
   @ViewChild("snav")
   sideNav: MatSidenav;
@@ -29,15 +32,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   constructor(public changeDetectorRef: ChangeDetectorRef, public media: MediaMatcher,
-    public store: Store<AppState>, private ims: IsMobileService) {
+    public store: Store<AppState>, private ims: IsMobileService, private as: AuthService) {
       this.setMobileDetection();
+
+      this.store.select("userDB").pipe(
+        takeUntil(this.compDest$)
+      ).subscribe(
+        (state: IUserDBState) => {
+          this.userLoaded = !state.appLoadMask;
+        }
+      );
   }
 
   ngOnInit() {
-    const u = this.getUserFromLocalStorage();
-    if (u) {
-      this.store.dispatch(AuthActions.authAutoLogin({user: u}))
-    }
+    this.as.autoLoginFromLocalstorage();
+    this.startUpAnalytics();
   }
 
   /**
@@ -70,13 +79,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUserFromLocalStorage(): VerifiedUser | null{
-    const localStorageUser: any = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_KEY));
-    if (!localStorageUser) {
-      return null;
+  startUpAnalytics() {
+    if (environment.gAnalytics) {
+      firebase.analytics();
     }
-    console.info("Local Storage: User Present");
-    return localStorageUser;
   }
 
   ngOnDestroy() {

@@ -3,8 +3,7 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import * as LSActions from './local-storage.actions';
 import { tap } from 'rxjs/operators';
 import { VerifiedUser } from '../../shared/models/user.model';
-
-const LOCAL_STORAGE_USER_KEY: string = "VERIFIED_USER";
+import { LOCAL_STORAGE_USER_KEY } from 'src/app/services/auth.service';
 
 @Injectable()
 export class LocalStorageEffects {

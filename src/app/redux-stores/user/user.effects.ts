@@ -6,8 +6,9 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import * as AuthUtils from '../../shared/utils/auth.utils';
 import { ToasterService } from '../../services/toaster.service';
-import { FireUserProfile, IUserInfo } from './user.model';
+import { IUserInfo } from './user.model';
 import { VerifiedUser } from '../../shared/models/user.model';
+import * as UserDbActions from '../user-database/user-db.actions';
 
 @Injectable()
 export class UserInfoEffects {
@@ -25,7 +26,7 @@ export class UserInfoEffects {
           photoURL: data.info.photoURL
         }).then(
           () => {
-            return UserActions.saveUserProfileSuccess({info: data.info});
+            return UserActions.saveUserProfileSuccess({info: data.info, uid: user.uid});
           },
           (rej) => {
             return UserActions.saveUserProfileFailure({errorMsg: AuthUtils.getFirebaseErrorMsg(rej)})
@@ -38,10 +39,13 @@ export class UserInfoEffects {
   updateProfileSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.saveUserProfileSuccess),
-      map((data) => {
+      switchMap((data) => {
         const info: IUserInfo = data.info;
         this.ts.getSuccess("Profile updated for " + info.displayName);
-        return UserActions.getUserProfileStart();
+        return [
+          UserActions.getUserProfileStart(),
+          UserDbActions.updateUserDBProfileEntryStart({userProfile: info, uid: data.uid})
+        ];
       })
     );
   });

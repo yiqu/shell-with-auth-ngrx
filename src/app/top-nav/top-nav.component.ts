@@ -10,9 +10,9 @@ import { Store } from '@ngrx/store';
 import { VerifiedUser } from '../shared/models/user.model';
 import * as utils from '../shared/utils/general.utils';
 import { environment } from '../../environments/environment';
-import { IUserInfoState } from '../redux-stores/user/user.model';
+import { IUserDBState } from '../redux-stores/user-database/user-db.model';
 
-const defaultProfileImg: string = "assets/user/default-user.png";
+const defaultProfileImg: string = "assets/user/default-user5.png";
 
 @Component({
   selector: 'app-top-nav',
@@ -42,17 +42,17 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(public router: Router, public route: ActivatedRoute,
     public as: AuthService, private store: Store<AppState>) {
       this.loading = true;
-      this.store.select("userInfoProfile").pipe(
+
+      this.store.select("userDB").pipe(
         takeUntil(this.compDest$)
       ).subscribe(
-        (state: IUserInfoState) => {
-          this.loading = state.loading;
-          this.setUserProfileImg(state.userInfo);
-          this.buildUserMenuItems(state.userInfo);
-          this.userMenuIcon = state.userInfo ? "account_circle" : "perm_identity";
+        (state: IUserDBState) => {
+          this.loading = !state.crudLoaded;
+          this.setUserProfileImg(state.user);
+          this.buildUserMenuItems(state.user);
+          this.userMenuIcon = state.user ? "account_circle" : "perm_identity";
         }
       )
-
   }
 
   ngOnInit() {
@@ -62,7 +62,7 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
 
   setUserProfileImg(u: VerifiedUser) {
     if (u) {
-      this.avartarImgSrc = u.photoURL;
+      this.avartarImgSrc = u.photoURL ? u.photoURL : this.avartarImgSrc;
     } else {
       this.avartarImgSrc = defaultProfileImg;
     }
