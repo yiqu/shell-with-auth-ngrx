@@ -33,7 +33,7 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
   swingState: boolean = false;
   userMenuIcon: string; //account_circle
   userMenuItems: MenuItem[] = [];
-  loading: boolean;
+  crudLoaded: boolean;
   avartarImgSrc: string = defaultProfileImg;
 
   @Output()
@@ -41,13 +41,12 @@ export class TopNavComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(public router: Router, public route: ActivatedRoute,
     public as: AuthService, private store: Store<AppState>) {
-      this.loading = true;
 
       this.store.select("userDB").pipe(
         takeUntil(this.compDest$)
       ).subscribe(
         (state: IUserDBState) => {
-          this.loading = !state.crudLoaded;
+          this.crudLoaded = state.crudLoaded;
           this.setUserProfileImg(state.user);
           this.buildUserMenuItems(state.user);
           this.userMenuIcon = state.user ? "account_circle" : "perm_identity";

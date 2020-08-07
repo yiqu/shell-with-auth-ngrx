@@ -16,6 +16,8 @@ const GET_USER_DB_START: string = "[DB/User/Profile] Get Start";
 const GET_USER_DB_FAILURE: string = "[DB/User/Profile] Get Failure";
 const GET_USER_DB_SUCCESS: string = "[DB/User/Profile] Get Success";
 
+const CLEAR_USER: string = "[DB/User/Profile] CLear user on log out";
+
 /**
  * CRUD operations for User entry in Fire DB
  *
@@ -50,6 +52,10 @@ export const getUserDBEntryFailure = createAction(
 export const getUserDBEntrySuccess = createAction(
   GET_USER_DB_SUCCESS,
   props<{user: VerifiedUser}>()
+)
+
+export const userLogoutClearUser = createAction(
+  CLEAR_USER
 )
 
 /**

@@ -11,6 +11,7 @@ import { AuthService } from './services/auth.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { IUserDBState } from './redux-stores/user-database/user-db.model';
+import { VerifiedUser } from './shared/models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
   footerTitle: string = "@KQ 2020";
   myUrl: string = "https://yiqu.github.io/";
   compDest$: Subject<any> = new Subject<any>();
-  userLoaded: boolean;
+  user: VerifiedUser;
 
   @ViewChild("snav")
   sideNav: MatSidenav;
@@ -39,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
         takeUntil(this.compDest$)
       ).subscribe(
         (state: IUserDBState) => {
-          this.userLoaded = !state.appLoadMask;
+          this.user = state.user;
         }
       );
   }

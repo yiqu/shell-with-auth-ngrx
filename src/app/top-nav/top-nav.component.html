@@ -1,7 +1,7 @@
 <mat-toolbar class="app-toolbar app-header">
   <div class="section-parent">
     <button mat-icon-button color="primary" (click)="onMenuClick()"
-      class="mat-elevation-z0" [@rotate]="leftNavMenuState">
+      class="mat-elevation-z0" [@rotate]="leftNavMenuState" [disabled]="!crudLoaded">
       <mat-icon>menu</mat-icon>
     </button>
   </div>
@@ -15,7 +15,7 @@
   </div>
 
   <div class="d-flex section-parent f-right">
-    <button mat-button [disabled]="loading" [matMenuTriggerFor]="menu" class="user-dropdown">
+    <button mat-button [disabled]="!crudLoaded" [matMenuTriggerFor]="menu" class="user-dropdown">
       <div class="profile-img-parent">
         <img [src]="avartarImgSrc" class="img-h-100 round-corners" alt="avartar">
       </div>

@@ -27,7 +27,7 @@ export const userDBReducer = createReducer(
       user: null,
       error: false,
       errorMsg: null,
-      getUserStart: "STARTED"
+      getUserStatus: "STARTED"
     }
   }),
   on(userDBActions.getUserDBEntrySuccess, (state, {user}) => {
@@ -38,7 +38,7 @@ export const userDBReducer = createReducer(
       user: user,
       error: false,
       errorMsg: null,
-      getUserStart: "SUCCESS"
+      getUserStatus: "SUCCESS"
     }
   }),
   on(userDBActions.getUserDBEntryFailure, (state, {errorMsg}) => {
@@ -49,7 +49,17 @@ export const userDBReducer = createReducer(
       user: null,
       error: true,
       errorMsg: errorMsg,
-      getUserStart: "FAIL"
+      getUserStatus: "FAIL"
+    }
+  }),
+  on(userDBActions.userLogoutClearUser, (state) => {
+    return {
+      ...state,
+      appLoadMask: true,
+      crudLoaded: true,
+      user: null,
+      error: false,
+      errorMsg: null
     }
   }),
 

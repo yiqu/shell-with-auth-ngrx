@@ -39,14 +39,24 @@ export class AuthService {
     );
   }
 
+  /**
+   * @param fireUser
+   * If Auth'd.
+   * Trigger Auth Log in Success
+   * Trigger get user's data from Firestore
+   *
+   * Else trigger logout
+   */
   handleOnAuthChange(fireUser: firebase.User) {
     if (fireUser) {
       const u = (<VerifiedUser>fireUser.toJSON());
       this.setVerifiedUser(u, this.firstAuthUserFetchCallAndRedirect, true);
+      this.store.dispatch(UserDbActions.getUserDBEntryStart({uid: fireUser?.uid}));
     } else {
       this.unsetVerifiedUser();
+      this.store.dispatch(UserDbActions.userLogoutClearUser());
     }
-    this.store.dispatch(UserDbActions.getUserDBEntryStart({uid: fireUser?.uid}));
+
     this.firstAuthUserFetchCallAndRedirect = true;
   }
 

@@ -21,25 +21,20 @@ export class UserDatabaseEffects {
       ofType(UserDbActions.getUserDBEntryStart),
       switchMap((data) => {
         const uid: string = data.uid;
-        if (uid) {
-          return this.us.getUserDBEntryById(uid).get().then(
-            (res) => {
-              if (res.exists) {
-                const user: VerifiedUser = res.data() as VerifiedUser;
-                return UserDbActions.getUserDBEntrySuccess({user: user});
-              } else {
-                return UserDbActions.getUserDBEntrySuccess({user: null});
-              }
-            },
-            (rej: FirebasePromiseError) => {
-              this.ts.getError(AuthUtils.getFirebaseErrorMsg(rej));
-              return UserDbActions.getUserDBEntryFailure({errorMsg: AuthUtils.getFirebaseErrorMsg(rej)});
+        return this.us.getUserDBEntryById(uid).get().then(
+          (res) => {
+            if (res.exists) {
+              const user: VerifiedUser = res.data() as VerifiedUser;
+              return UserDbActions.getUserDBEntrySuccess({user: user});
+            } else {
+              return UserDbActions.getUserDBEntrySuccess({user: null});
             }
-          );
-        }
-        return [
-          UserDbActions.getUserDBEntrySuccess({user: undefined})
-        ]
+          },
+          (rej: FirebasePromiseError) => {
+            this.ts.getError(AuthUtils.getFirebaseErrorMsg(rej));
+            return UserDbActions.getUserDBEntryFailure({errorMsg: AuthUtils.getFirebaseErrorMsg(rej)});
+          }
+        );
       })
     );
   });

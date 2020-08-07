@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AppState } from '../redux-stores/global-store/app.reducer';
 import { Store } from '@ngrx/store';
 import * as fromUserActions from '../redux-stores/user/user.actions';
+import * as fromUserDBActions from '../redux-stores/user-database/user-db.actions';
 import { UserInfo } from '../redux-stores/user/user.model';
 import { DocumentReference } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
@@ -31,6 +32,10 @@ export class UserService {
 
   private getFireStore(): firebase.firestore.Firestore {
     return firebase.firestore();
+  }
+
+  public clearLoggedinUser(): void {
+    this.store.dispatch(fromUserDBActions.userLogoutClearUser());
   }
 
 }

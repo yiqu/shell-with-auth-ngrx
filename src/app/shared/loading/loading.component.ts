@@ -44,7 +44,7 @@ export class LoadingComponent implements OnInit, OnChanges, OnDestroy {
         this.uid = state.uid;
         this.error = state.error;
         this.errMsg = state.errorMsg;
-        this.getUserStatus = state['getUserStart'];
+        this.getUserStatus = state['getUserStatus'];
       }
     );
     // this.router.events.subscribe((event: Event) => {
@@ -76,7 +76,6 @@ export class LoadingComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-
   }
 
   ngOnDestroy() {
