@@ -75,6 +75,6 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~3.9.6",
-    "firebase-tools": "^8.6.0"
+    "firebase-tools": "^12.4.4"
   }
 }
